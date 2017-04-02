@@ -1,4 +1,4 @@
-#**LabIT Backend**
+# **LabIT Backend**
 
 This repository contains code for the LabIT backend. This code takes 
 care of:
@@ -11,7 +11,7 @@ care of:
 This is hosted on Heroku and talks to a database hosted on AWS. The
 database credentials are in a file called **secrets.py**
 
-To run this locally:
+## To run this locally:
 
 1. Create a virtual environment if you want.
 ```mkvirtualenv labitenv```
