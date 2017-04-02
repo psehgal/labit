@@ -1,0 +1,35 @@
+{% extends 'messagegenerator/base.html' %}
+
+{% block content %}
+
+  <h1>Order a Test</h1>
+  <p class="lead">Specify the ordering practitioner, the patient, and the test.</p>
+  <form action="/ordertest" method="POST">{% csrf_token %}
+    <div class="form-group">
+
+      <label for="practitioner">Select an ordering practitioner</label>
+      <select class="form-control" name="practitioner">
+        {% for practitioner in practitioners %}
+          <option>{{ practitioner.name }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="patient">Select a patient</label>
+      <select class="form-control" name="patient">
+        {% for patient in patients %}
+          <option>{{ patient.name }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="tests">Tests</label>
+      <select multiple class="form-control" name="tests">
+        {% for test in labtests %}
+          <option>{{ test.test_name }}</option>
+        {% endfor %}
+      </select>
+      <input type="checkbox" name="iscritical" value="critical">Make tests critical?</br>
+      <input type="submit" class="btn btn-default" value="Submit">
+    </div>
+  </form>
+
+{% endblock %}

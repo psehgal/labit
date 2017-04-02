@@ -1,0 +1,19 @@
+{% extends 'messagegenerator/base.html' %}
+
+{% block content %}
+
+  <h1>Order Details</h1>
+  <p class="lead">The order you just placed:</p>
+  <h3>Ordering Practitioner</h3>
+  <p>{{ practitioner }}</p>
+  <h3>Patient</h3>
+  <p>{{ patient }}</p>
+  <h3>Tests {{ critical }}</h3>
+  <ul>
+  {% for test in tests %}
+    <li>
+    <p>{{ test }}</p>
+    </li>
+  {% endfor %}
+  </ul>
+{% endblock %}
