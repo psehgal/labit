@@ -1,0 +1,1 @@
+web: gunicorn labresults.wsgi --log-file -
