@@ -5,8 +5,12 @@ care of:
 
     * Ordering a test
     * Creating an HL7 message
-    * Authentication
+    * Sending the HL7 message back to this backend and parsing it
+    * Authentication for mobile front-ends 
     * Sending push notifications
+    * Acknowledging receipt of a notification
+    * Updating a client services dashboard to show status of notifications
+    
     
 This is hosted on Heroku and talks to a database hosted on AWS. The
 database credentials are in a file called **secrets.py**
