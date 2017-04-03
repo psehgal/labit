@@ -52,10 +52,11 @@ def generate_hl7_message(practitioner, patient, tests, critical):
     for test in tests:
         test_object = LabTest.objects.get(test_name=test)
         obr = Segment('OBR')
-        obr.obr_4 = test
+        obr.obr_4 = test_object.loinc_id
         hl7message.add(obr)
         obx = Segment('OBX')
         obx.obx_3 = test
+        obx.obx_4 = test_object.loinc_id
         value, test_range = patient_object.get_test_value(test_object, critical)
         obx.obx_5 = str(value)
         obx.obx_6 = test_range.test_units
