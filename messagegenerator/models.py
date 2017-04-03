@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from datetime import datetime
+import random
 
 
 # Create your models here.
@@ -25,6 +26,8 @@ class TestRanges(models.Model):
     test_high_critical_value = models.FloatField()
     test_units = models.CharField(max_length=10)
     lab_test = models.ForeignKey(LabTest, on_delete=models.CASCADE)
+    has_lower_critical_range = models.BooleanField(default=True)
+    has_upper_critical_range = models.BooleanField(default=True)
 
     def __str__(self):
         age_range = "-".join([str(self.age_range_lower_days), str(self.age_range_upper_days)])
@@ -57,6 +60,29 @@ class Patient(models.Model):
     birthday = models.CharField(max_length=15)
     sex = models.CharField(max_length=10)
     michigan_common_key_service_identifier = models.CharField(max_length=50)
+
+    def get_test_value(self, test, critical):
+        test_ranges_for_test = TestRanges.objects.filter(lab_test=test)
+        p_sex = None
+        if self.sex[0] == "m" or self.sex[0] == "M":
+            p_sex = "M"
+        else:
+            p_sex = "F"
+        age_days = self.get_age_in_days()
+        for range_ in test_ranges_for_test:
+            if range_.patient_sex == p_sex and age_days < range_.age_range_upper_days and age_days > range_.age_range_lower_days:
+                if range_.has_upper_critical_range:
+                    if critical:
+                        rand_mult = random.uniform(1.2, 1.9)
+                        return range_.test_high_critical_value * rand_mult, range_
+                    else:
+                        return random.uniform(range_.test_reference_range_lower, range_.test_reference_range_upper), range_
+                elif range_.has_lower_critical_range:
+                    if critical:
+                        rand_mult = random.uniform(0.1, 0.8)
+                        return range_.test_low_critical_value * rand_mult, range_
+                    else:
+                        return random.uniform(range_.test_reference_range_lower, range_.test_reference_range_upper), range_
 
     def get_age_in_days(self):
         b_date = datetime.strptime(self.birthday, "%Y-%m-%d")
