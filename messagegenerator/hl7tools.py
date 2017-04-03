@@ -24,7 +24,6 @@ def generate_hl7_message(practitioner, patient, tests, critical):
     practitioner_object = Practitioner.objects.get(fhir_id=practitioner)
 
     hl7message = Message("ORU_R01")
-
     hl7message.msh.msh_3 = SENDING_APPLICATION
     hl7message.msh.msh_4 = SENDING_FACILITY
     hl7message.msh.msh_5 = RECEIVING_APPLICATION
@@ -34,7 +33,7 @@ def generate_hl7_message(practitioner, patient, tests, critical):
     # TODO: last, first
     pid.pid_5 = patient_object.name.replace(' ', '^')
     pid.pid_7 = patient_object.birthday
-    pid.pid_8 = patient_object.sex
+    pid.pid_8 = patient_object.sex[0]
     #10 - Race
     #11 - Address
     #Should those be queried from fhir?
@@ -55,7 +54,7 @@ def generate_hl7_message(practitioner, patient, tests, critical):
         obr.obr_4 = test_object.loinc_id
         hl7message.add(obr)
         obx = Segment('OBX')
-        obx.obx_3 = test
+        obx.obx_3 = test.replace(" ", "^")
         obx.obx_4 = test_object.loinc_id
         value, test_range = patient_object.get_test_value(test_object, critical)
         obx.obx_5 = str(value)
