@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from models import Practitioner, Patient, LabTest, OrderMessage
 import pdb
 import hl7tools
 from django.views.decorators.csrf import csrf_exempt
 import json
 import random
+from django.utils import timezone
 
 # Create your views here.
 
@@ -60,7 +61,8 @@ def order_test_home(request):
                                  value=test[0],
                                  room=room,
                                  critical=test[1],
-                                 taken_by_doctor=False)
+                                 taken_by_doctor=False,
+                                 time_ordered=timezone.localtime(timezone.now()))
             order.save()
 
         context = {
@@ -111,3 +113,43 @@ def post_hl7_message(request):
         return render(request, "messagegenerator/pushdetails.html", context)
     else:
         return render(request, "messagegenerator/error.html", {"error": "Error parsing HL7 message."})
+
+
+@csrf_exempt
+def get_ordered_tests(request, taken_by_dr=False):
+    orders_list = []
+    if request.method == "POST":
+        request_json = json.loads(request.body)
+        practitioner_fhir_id = request_json["practitioner_fhir_id"]
+        practitioner = Practitioner.objects.get(fhir_id=practitioner_fhir_id)
+        orders = OrderMessage.objects.filter(ordering_practitioner=practitioner)
+        for order in orders:
+            if order.time_remaining() > 1 and order.taken_by_doctor == taken_by_dr:
+                order_dict = order.to_dict()
+                orders_list.append(order_dict)
+    json_response = json.dumps(orders_list)
+    return JsonResponse(json_response, safe=False)
+
+
+@csrf_exempt
+def get_taken_tests(request):
+    return get_ordered_tests(request, taken_by_dr=True)
+
+
+@csrf_exempt
+def get_doctors_on_call(request):
+    doctors = []
+    if request.method == "GET":
+        on_call_doctors = Practitioner.objects.filter(on_call=True)
+        for on_call_doctor in on_call_doctors:
+            doctors.append(on_call_doctor.name)
+    json_response = json.dumps(doctors)
+    return JsonResponse(json_response, safe=False)
+
+
+@csrf_exempt
+def login(request):
+    if request.method == "POST":
+        request_json = json.loads(request.body)
+        print request_json
+        return HttpResponse("hi")

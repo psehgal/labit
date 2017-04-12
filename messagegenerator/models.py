@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 from django.db import models
 from datetime import datetime
 import random
+from django.utils import timezone
+from datetime import timedelta
 
 
 # Create your models here.
@@ -59,6 +61,7 @@ class Practitioner(models.Model):
     michigan_common_key_service_identifier = models.CharField(max_length=50)
     on_call = models.BooleanField(default=f)
     location = models.IntegerField(default=g())
+    push_token = models.CharField(max_length=500, default="123")
 
     def __str__(self):
         return self.name + ", " + self.fhir_id
@@ -114,7 +117,33 @@ class OrderMessage(models.Model):
     test = models.ForeignKey(LabTest, on_delete=models.CASCADE)
     taken_by_doctor = models.BooleanField(default=False)
     critical = models.BooleanField(default=False)
-    time_ordered = models.DateTimeField(default=datetime.now())
+    #
+    time_ordered = models.DateTimeField(default=timezone.localtime(timezone.now()))
+    claimer = models.CharField(max_length=100, default="11111")
+
+
+
+    def time_remaining(self):
+        expiration_time = self.time_ordered + timedelta(hours=1)
+        remaining_time = expiration_time - timezone.localtime(timezone.now())
+        if remaining_time >= timedelta(0):
+            seconds = remaining_time.total_seconds()
+            minutes = (seconds % 3600) // 60
+            return minutes
+
+    def to_dict(self):
+        context = {}
+        context["id"] = self.id
+        context["test_name"] = self.test.test_name
+        context["value"] = self.value
+        context["is_critical"] = self.critical
+        context["patient_name"] = self.patient.name
+        context["units"] = self.test.testranges_set.all()[0].test_units
+        context["location"] = self.room
+        context["ordering_practitioner"] = self.ordering_practitioner.name
+        context["care_team_doctor_1"] = self.care_team_doctor_1.name
+        context["care_team_doctor_2"] = self.care_team_doctor_2.name
+        return context
 
 
 

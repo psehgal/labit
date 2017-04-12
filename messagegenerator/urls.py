@@ -21,6 +21,10 @@ app_name = 'messagegenerator'
 urlpatterns = [
     url(r'^ordertest', views.order_test_home, name="order_test_home"),
     url(r'^posthl7message', views.post_hl7_message, name="post_h7_message"),
+    url(r'^gettests', views.get_ordered_tests, name="get_ordered_tests"),
+    url(r'^gettakentests', views.get_taken_tests, name="get_taken_tests"),
+    url(r'^getdoctorsoncall', views.get_doctors_on_call, name="get_doctors_on_call"),
+    url(r'^login', views.login, name="login"),
     url(r'^', views.home, name="home"),
 ]
 
