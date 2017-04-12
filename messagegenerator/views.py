@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from models import Practitioner, Patient, LabTest
+from models import Practitioner, Patient, LabTest, OrderMessage
 import pdb
 import hl7tools
+from django.views.decorators.csrf import csrf_exempt
+import json
+import random
 
 # Create your views here.
 
@@ -19,6 +22,24 @@ def order_test_home(request):
         practitioner = request.POST.get("practitioner")
         patient = request.POST.get("patient")
         tests = request.POST.getlist("tests")
+        care_team = request.POST.getlist("care_team")
+
+        care_team_1 = None
+        care_team_2 = None
+
+        if len(care_team) == 1:
+            care_team_1 = Practitioner.objects.get(name=care_team[0])
+            care_team_2 = random.choice(Practitioner.objects.all())
+
+        elif len(care_team) == 2:
+            care_team_1 = Practitioner.objects.get(name=care_team[0])
+            care_team_2 = Practitioner.objects.get(name=care_team[1])
+
+        else:
+            care_team_1 = random.choice(Practitioner.objects.all())
+            care_team_2 = random.choice(Practitioner.objects.all())
+
+
         critical = request.POST.get("iscritical")
         is_critical = True if critical is not None else False
         critical = "(Critical)" if is_critical else ""
@@ -26,14 +47,29 @@ def order_test_home(request):
         #generate the hl7 message here
         practitioner_id = Practitioner.objects.get(name=practitioner).fhir_id
         patient_id = Patient.objects.get(name=patient).fhir_id
-        hl7message = hl7tools.generate_hl7_message(practitioner_id, patient_id, tests, is_critical)
+        hl7message, tests_values, room = hl7tools.generate_hl7_message(practitioner_id, patient_id, tests, is_critical)
+        print len(tests_values)
+        print tests_values
+        for test in tests_values:
+            print "test[1]", test[1]
+            order = OrderMessage(ordering_practitioner=Practitioner.objects.get(name=practitioner),
+                                 care_team_doctor_1=care_team_1,
+                                 care_team_doctor_2=care_team_2,
+                                 patient=Patient.objects.get(name=patient),
+                                 test=LabTest.objects.get(test_name=test[1]),
+                                 value=test[0],
+                                 room=room,
+                                 critical=test[1],
+                                 taken_by_doctor=False)
+            order.save()
 
         context = {
             "practitioner": practitioner,
             "patient": patient,
             "tests": tests,
             "critical": critical,
-            "hl7message": hl7message.split('\n')
+            "hl7message": hl7message.replace('\r','\n').split('\n'),
+            "hl7message_one_line": json.dumps(hl7message.split('\n'))
         }
         return render(request, "messagegenerator/orderdetails.html", context)
     context = {
@@ -43,3 +79,35 @@ def order_test_home(request):
         'labtests': LabTest.objects.all()
     }
     return render(request, "messagegenerator/orderspecific.html", context)
+
+
+def generate_push_notification(hl7_context_dictionary):
+    notifications = []
+    for result in hl7_context_dictionary["results"]:
+        test_name = result["test_name"].replace("^", " ")
+        value_and_units = result["test_value"] + result["test_units"] + ","
+        room = "Room: " + hl7_context_dictionary["room_number"]
+        push_notification = " ".join([test_name, value_and_units, room])
+        notifications.append(push_notification)
+    return notifications
+
+
+@csrf_exempt
+def post_hl7_message(request):
+    hl7message = None
+    if request.method == "POST":
+        hl7message = request.POST.get("hl7message")
+        hl7message = json.loads(hl7message)[0]
+    else:
+        return home(request)
+    if hl7message is not None:
+        hl7_context_dictionary = hl7tools.parse_hl7_message(hl7message.replace('\n', '\r'))
+        print hl7_context_dictionary
+        notifs = generate_push_notification(hl7_context_dictionary)
+        context = {
+            "notifications": notifs
+        }
+        #SEND PUSH NOTIFICATIONS HERE
+        return render(request, "messagegenerator/pushdetails.html", context)
+    else:
+        return render(request, "messagegenerator/error.html", {"error": "Error parsing HL7 message."})

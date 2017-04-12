@@ -42,12 +42,23 @@ class TestRanges(models.Model):
         return details
 
 
+def f():
+    return random.choice([True, False])
+
+
+def g():
+    zone = random.choice([1,2,3])
+    return zone
+
+
 class Practitioner(models.Model):
     name = models.CharField(max_length=150)
     fhir_id = models.CharField(max_length=50)
     ssn = models.CharField(max_length=9)
     national_provider_identifier = models.CharField(max_length=50)
     michigan_common_key_service_identifier = models.CharField(max_length=50)
+    on_call = models.BooleanField(default=f)
+    location = models.IntegerField(default=g())
 
     def __str__(self):
         return self.name + ", " + self.fhir_id
@@ -94,9 +105,15 @@ class Patient(models.Model):
 
 
 class OrderMessage(models.Model):
-    ordering_practitioner = models.OneToOneField(Practitioner, on_delete=models.CASCADE)
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE)
+    ordering_practitioner = models.ForeignKey(Practitioner, related_name="%(class)s_related", on_delete=models.CASCADE)
+    care_team_doctor_1 = models.ForeignKey(Practitioner, related_name="%(class)s_related_created", on_delete=models.CASCADE)
+    care_team_doctor_2 = models.ForeignKey(Practitioner, related_name="%(class)s_related_created_here", on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    value = models.FloatField()
+    room = models.IntegerField()
     test = models.ForeignKey(LabTest, on_delete=models.CASCADE)
+    taken_by_doctor = models.BooleanField(default=False)
+    critical = models.BooleanField(default=False)
 
 
 

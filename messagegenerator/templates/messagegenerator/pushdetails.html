@@ -1,0 +1,11 @@
+{% extends 'messagegenerator/base.html' %}
+
+{% block content %}
+
+  <h3>These push notifications have been sent.</h3>
+  <br>
+  {% for notification in notifications %}
+    <p>{{ notification }}</p><br>
+  {% endfor %}
+
+{% endblock %}

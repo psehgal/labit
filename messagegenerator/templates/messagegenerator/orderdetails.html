@@ -23,4 +23,8 @@
       {{ line }}<br>
     {% endfor %}
   </div>
+  <form action="/posthl7message" method="POST">
+    <input type="text" name="hl7message" value="{{ hl7message_one_line }}" hidden>
+    <input type="submit" class="btn btn-default" value="Push">
+  </form>
 {% endblock %}

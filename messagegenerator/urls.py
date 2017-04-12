@@ -20,6 +20,7 @@ from . import views
 app_name = 'messagegenerator'
 urlpatterns = [
     url(r'^ordertest', views.order_test_home, name="order_test_home"),
+    url(r'^posthl7message', views.post_hl7_message, name="post_h7_message"),
     url(r'^', views.home, name="home"),
 ]
 
