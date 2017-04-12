@@ -165,7 +165,7 @@ def login(request):
             practitioner.save()
             resp["status"] = "success"
             response = JsonResponse(resp, safe=False)
-            response["Access-Control-Allow-Origin"] = "*"
+            # response["Access-Control-Allow-Origin"] = "*"
             return response
         except (ObjectDoesNotExist, KeyError):
             resp["status"] = "user not found"
