@@ -136,6 +136,7 @@ class OrderMessage(models.Model):
 
     def to_dict(self):
         context = {}
+        context["claimer"] = Practitioner.objects.get(fhir_id=self.claimer).name
         context["completed"] = self.time_ordered
         context["id"] = self.id
         context["test_name"] = self.test.test_name
