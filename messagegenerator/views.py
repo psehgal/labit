@@ -132,7 +132,7 @@ def get_ordered_tests(request, taken_by_dr=False):
     # json_response = json.dumps(orders_list)
     json_response = orders_list
     response = JsonResponse(json_response, safe=False)
-    response["Access-Control-Allow-Origin"] = "*"
+    # response["Access-Control-Allow-Origin"] = "*"
     return response
 
 
@@ -150,7 +150,7 @@ def get_doctors_on_call(request):
             doctors.append(on_call_doctor.name)
     json_response = doctors
     response = JsonResponse(json_response, safe=False)
-    response["Access-Control-Allow-Origin"] = "*"
+    # response["Access-Control-Allow-Origin"] = "*"
     return response
 
 
@@ -170,6 +170,6 @@ def login(request):
         except (ObjectDoesNotExist, KeyError):
             resp["status"] = "user not found"
             response = JsonResponse(resp, safe=False)
-            response["Access-Control-Allow-Origin"] = "*"
+            # response["Access-Control-Allow-Origin"] = "*"
             return response
 
