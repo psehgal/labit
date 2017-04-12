@@ -1,5 +1,6 @@
 appdirs==1.4.3
 Django==1.9.4
+django-cors-headers==2.0.2
 gunicorn==19.7.1
 hl7apy==1.2.0
 MySQL-python==1.2.5
