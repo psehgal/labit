@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import random
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -152,8 +153,13 @@ def login(request):
     resp = {}
     if request.method == "POST":
         request_json = json.loads(request.body)
-        practitioner = Practitioner.objects.get(fhir_id=request_json["practitioner_fhir_id"])
-        practitioner.push_token = request_json["token"]
-        practitioner.save()
-        resp["status"] = "success"
-        return JsonResponse(json.dumps(resp), safe=False)
+        try:
+            practitioner = Practitioner.objects.get(fhir_id=request_json["practitioner_fhir_id"])
+            practitioner.push_token = request_json["token"]
+            practitioner.save()
+            resp["status"] = "success"
+            return JsonResponse(json.dumps(resp), safe=False)
+        except ObjectDoesNotExist:
+            resp["status"] = "user not found"
+            return JsonResponse(json.dumps(resp), safe=False)
+
