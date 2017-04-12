@@ -159,7 +159,7 @@ def login(request):
             practitioner.save()
             resp["status"] = "success"
             return JsonResponse(json.dumps(resp), safe=False)
-        except ObjectDoesNotExist:
+        except (ObjectDoesNotExist, KeyError):
             resp["status"] = "user not found"
             return JsonResponse(json.dumps(resp), safe=False)
 
