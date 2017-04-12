@@ -10,14 +10,14 @@
       <label for="practitioner">Select an ordering practitioner (attending physician).</label>
       <select class="form-control" name="practitioner">
         {% for practitioner in practitioners %}
-          <option>{{ practitioner.name }}</option>
+          <option>{{ practitioner.name }}   </option>
         {% endfor %}
       </select>
 
       <label for="care_team">Select doctors on the care team.</label>
       <select multiple class="form-control" name="care_team">
         {% for practitioner in practitioners %}
-          <option>{{ practitioner.name }}</option>
+          <option>{{ practitioner.name }}   </option>
         {% endfor %}
       </select>
 

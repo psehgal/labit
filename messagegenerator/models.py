@@ -121,8 +121,6 @@ class OrderMessage(models.Model):
     time_ordered = models.DateTimeField(default=timezone.localtime(timezone.now()))
     claimer = models.CharField(max_length=100, default="11111")
 
-
-
     def time_remaining(self):
         expiration_time = self.time_ordered + timedelta(hours=1)
         remaining_time = expiration_time - timezone.localtime(timezone.now())
@@ -130,6 +128,11 @@ class OrderMessage(models.Model):
             seconds = remaining_time.total_seconds()
             minutes = (seconds % 3600) // 60
             return minutes
+
+    def is_on_care_team(self, practitioner):
+        if self.ordering_practitioner == practitioner or self.care_team_doctor_2 == practitioner or self.care_team_doctor_1 == practitioner:
+            return True
+        return False
 
     def to_dict(self):
         context = {}
