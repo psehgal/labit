@@ -114,6 +114,7 @@ class OrderMessage(models.Model):
     test = models.ForeignKey(LabTest, on_delete=models.CASCADE)
     taken_by_doctor = models.BooleanField(default=False)
     critical = models.BooleanField(default=False)
+    time_ordered = models.DateTimeField(default=datetime.now())
 
 
 
