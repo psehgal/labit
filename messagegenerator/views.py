@@ -148,7 +148,7 @@ def get_doctors_on_call(request):
         on_call_doctors = Practitioner.objects.filter(on_call=True)
         for on_call_doctor in on_call_doctors:
             doctors.append(on_call_doctor.name)
-    json_response = doctors
+    json_response = {"doctors": doctors}
     response = JsonResponse(json_response, safe=False)
     # response["Access-Control-Allow-Origin"] = "*"
     return response
