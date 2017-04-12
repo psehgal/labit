@@ -160,8 +160,8 @@ def login(request):
             practitioner.push_token = request_json["token"]
             practitioner.save()
             resp["status"] = "success"
-            return JsonResponse(json.dumps(resp), safe=False)
+            return JsonResponse(resp, safe=False)
         except (ObjectDoesNotExist, KeyError):
             resp["status"] = "user not found"
-            return JsonResponse(json.dumps(resp), safe=False)
+            return JsonResponse(resp, safe=False)
 
