@@ -117,9 +117,10 @@ class OrderMessage(models.Model):
     test = models.ForeignKey(LabTest, on_delete=models.CASCADE)
     taken_by_doctor = models.BooleanField(default=False)
     critical = models.BooleanField(default=False)
-    #
+
     time_ordered = models.DateTimeField(default=timezone.localtime(timezone.now()))
     claimer = models.CharField(max_length=100, default="11111")
+    time_claimed = models.DateTimeField(default=None)
 
     def time_remaining(self):
         expiration_time = self.time_ordered + timedelta(hours=1)
@@ -136,6 +137,7 @@ class OrderMessage(models.Model):
 
     def to_dict(self):
         context = {}
+        context["time_claimed"] = self.time_claimed
         context["claimer"] = Practitioner.objects.get(fhir_id=self.claimer).name
         context["completed"] = self.time_ordered
         context["id"] = self.id

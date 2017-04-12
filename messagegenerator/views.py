@@ -185,6 +185,7 @@ def take_test(request):
             test = OrderMessage.objects.get(id=test_id)
             test.claimer = practitioner_fhir_id
             test.taken_by_doctor = True
+            test.time_claimed = timezone.localtime(timezone.now())
             test.save()
             resp["status"] = "success"
         except (ObjectDoesNotExist, KeyError):
