@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^gettakentests', views.get_taken_tests, name="get_taken_tests"),
     url(r'^getdoctorsoncall', views.get_doctors_on_call, name="get_doctors_on_call"),
     url(r'^login', views.login, name="login"),
+    url(r'^taketest', views.take_test, name="take_test"),
     url(r'^', views.home, name="home"),
 ]
 

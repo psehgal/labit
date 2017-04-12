@@ -173,3 +173,21 @@ def login(request):
             # response["Access-Control-Allow-Origin"] = "*"
             return response
 
+
+@csrf_exempt
+def take_test(request):
+    resp = {}
+    if request.method == "POST":
+        request_json = json.loads(request.body)
+        try:
+            practitioner_fhir_id = request_json["practitioner_fhir_id"]
+            test_id = request_json["id"]
+            test = OrderMessage.objects.get(id=test_id)
+            test.claimer = practitioner_fhir_id
+            test.taken_by_doctor = True
+            test.save()
+            resp["status"] = "success"
+        except (ObjectDoesNotExist, KeyError):
+            resp["status"] = "error"
+    return JsonResponse(resp, safe=False)
+
