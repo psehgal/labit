@@ -136,9 +136,12 @@ class OrderMessage(models.Model):
 
     def to_dict(self):
         context = {}
+        context["completed"] = self.time_ordered
         context["id"] = self.id
         context["test_name"] = self.test.test_name
         context["value"] = self.value
+        context["patient_gender"] = self.patient.sex
+        context["patient_age"] = self.patient.get_age_in_days() / 365
         context["is_critical"] = self.critical
         context["patient_name"] = self.patient.name
         context["units"] = self.test.testranges_set.all()[0].test_units

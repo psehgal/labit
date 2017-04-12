@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b9c0fa41-a782-4d5e-adcd-afe3e7f9b1f5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/messagegenerator/models.py" afterPath="$PROJECT_DIR$/messagegenerator/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/messagegenerator/templates/messagegenerator/orderspecific.html" afterPath="$PROJECT_DIR$/messagegenerator/templates/messagegenerator/orderspecific.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/messagegenerator/views.py" afterPath="$PROJECT_DIR$/messagegenerator/views.py" />
     </list>
     <ignored path="labresults.iws" />
@@ -39,18 +38,18 @@
       <file leaf-file-name="orderdetails.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/messagegenerator/templates/messagegenerator/orderdetails.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="11" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="14" />
+            <state relative-caret-position="135">
+              <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/messagegenerator/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="134" column="20" selection-start-line="134" selection-start-column="20" selection-end-line="134" selection-end-column="20" />
+            <state relative-caret-position="533">
+              <caret line="143" column="69" selection-start-line="143" selection-start-column="69" selection-end-line="143" selection-end-column="69" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -71,18 +70,18 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/messagegenerator/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+            <state relative-caret-position="315">
+              <caret line="23" column="19" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/messagegenerator/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-37">
-              <caret line="125" column="42" selection-start-line="125" selection-start-column="42" selection-end-line="125" selection-end-column="42" />
+            <state relative-caret-position="38">
+              <caret line="131" column="31" selection-start-line="131" selection-start-column="31" selection-end-line="131" selection-end-column="31" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -144,9 +143,9 @@
         <option value="$PROJECT_DIR$/messagegenerator/migrations/0012_auto_20170412_1448.py" />
         <option value="$PROJECT_DIR$/messagegenerator/migrations/0020_auto_20170412_1501.py" />
         <option value="$PROJECT_DIR$/messagegenerator/urls.py" />
-        <option value="$PROJECT_DIR$/messagegenerator/models.py" />
         <option value="$PROJECT_DIR$/messagegenerator/templates/messagegenerator/orderspecific.html" />
         <option value="$PROJECT_DIR$/messagegenerator/views.py" />
+        <option value="$PROJECT_DIR$/messagegenerator/models.py" />
       </list>
     </option>
   </component>
@@ -1138,22 +1137,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/messagegenerator/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/messagegenerator/templates/messagegenerator/orderdetails.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="11" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/messagegenerator/templates/messagegenerator/orderspecific.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
@@ -1162,22 +1145,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/messagegenerator/models.py">
+    <entry file="file://$PROJECT_DIR$/messagegenerator/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="134" column="20" selection-start-line="134" selection-start-column="20" selection-end-line="134" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="315">
+          <caret line="23" column="19" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/messagegenerator/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-37">
-          <caret line="125" column="42" selection-start-line="125" selection-start-column="42" selection-end-line="125" selection-end-column="42" />
+        <state relative-caret-position="38">
+          <caret line="131" column="31" selection-start-line="131" selection-start-column="31" selection-end-line="131" selection-end-column="31" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/messagegenerator/templates/messagegenerator/orderdetails.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/messagegenerator/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="533">
+          <caret line="143" column="69" selection-start-line="143" selection-start-column="69" selection-end-line="143" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
