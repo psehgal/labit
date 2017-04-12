@@ -146,7 +146,7 @@ def get_doctors_on_call(request):
         on_call_doctors = Practitioner.objects.filter(on_call=True)
         for on_call_doctor in on_call_doctors:
             doctors.append(on_call_doctor.name)
-    json_response = json.dumps(doctors)
+    json_response = doctors
     return JsonResponse(json_response, safe=False)
 
 
