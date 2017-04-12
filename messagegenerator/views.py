@@ -131,7 +131,9 @@ def get_ordered_tests(request, taken_by_dr=False):
                 orders_list.append(order_dict)
     # json_response = json.dumps(orders_list)
     json_response = orders_list
-    return JsonResponse(json_response, safe=False)
+    response = JsonResponse(json_response, safe=False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
 
 
 @csrf_exempt
@@ -147,7 +149,9 @@ def get_doctors_on_call(request):
         for on_call_doctor in on_call_doctors:
             doctors.append(on_call_doctor.name)
     json_response = doctors
-    return JsonResponse(json_response, safe=False)
+    response = JsonResponse(json_response, safe=False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
 
 
 @csrf_exempt
@@ -160,8 +164,12 @@ def login(request):
             practitioner.push_token = request_json["token"]
             practitioner.save()
             resp["status"] = "success"
-            return JsonResponse(resp, safe=False)
+            response = JsonResponse(resp, safe=False)
+            response["Access-Control-Allow-Origin"] = "*"
+            return response
         except (ObjectDoesNotExist, KeyError):
             resp["status"] = "user not found"
-            return JsonResponse(resp, safe=False)
+            response = JsonResponse(resp, safe=False)
+            response["Access-Control-Allow-Origin"] = "*"
+            return response
 
