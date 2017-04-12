@@ -61,7 +61,7 @@ def order_test_home(request):
                                  test=LabTest.objects.get(test_name=test[1]),
                                  value=test[0],
                                  room=room,
-                                 critical=test[1],
+                                 critical=test[2],
                                  taken_by_doctor=False,
                                  time_ordered=timezone.localtime(timezone.now()))
             order.save()
@@ -87,11 +87,12 @@ def order_test_home(request):
 def generate_push_notification(hl7_context_dictionary):
     notifications = []
     for result in hl7_context_dictionary["results"]:
-        test_name = result["test_name"].replace("^", " ")
-        value_and_units = result["test_value"] + result["test_units"] + ","
-        room = "Room: " + hl7_context_dictionary["room_number"]
-        push_notification = " ".join([test_name, value_and_units, room])
-        notifications.append(push_notification)
+        if result["is_critical"] == "AA":
+            test_name = result["test_name"].replace("^", " ")
+            value_and_units = result["test_value"] + result["test_units"] + ","
+            room = "Room: " + hl7_context_dictionary["room_number"]
+            push_notification = " ".join([test_name, value_and_units, room])
+            notifications.append(push_notification)
     return notifications
 
 
