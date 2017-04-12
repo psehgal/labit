@@ -149,7 +149,11 @@ def get_doctors_on_call(request):
 
 @csrf_exempt
 def login(request):
+    resp = {}
     if request.method == "POST":
         request_json = json.loads(request.body)
-        print request_json
-        return HttpResponse("hi")
+        practitioner = Practitioner.objects.get(fhir_id=request_json["practitioner_fhir_id"])
+        practitioner.push_token = request_json["token"]
+        practitioner.save()
+        resp["status"] = "success"
+        return JsonResponse(json.dumps(resp), safe=False)
