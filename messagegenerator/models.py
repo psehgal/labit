@@ -138,7 +138,8 @@ class OrderMessage(models.Model):
     def to_dict(self):
         context = {}
         context["time_claimed"] = self.time_claimed
-        context["claimer"] = Practitioner.objects.get(fhir_id=self.claimer).name
+        if self.taken_by_doctor:
+            context["claimer"] = Practitioner.objects.get(fhir_id=self.claimer).name
         context["completed"] = self.time_ordered
         context["id"] = self.id
         context["test_name"] = self.test.test_name
