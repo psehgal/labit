@@ -63,7 +63,8 @@ def order_test_home(request):
                                  room=room,
                                  critical=test[2],
                                  taken_by_doctor=False,
-                                 time_ordered=timezone.localtime(timezone.now()))
+                                 time_ordered=timezone.localtime(timezone.now()),
+                                 time_claimed=timezone.localtime(timezone.now()))
             order.save()
 
         context = {
