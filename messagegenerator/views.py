@@ -8,6 +8,8 @@ import json
 import random
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
+import requests
+import pprint
 
 # Create your views here.
 
@@ -50,10 +52,25 @@ def order_test_home(request):
         practitioner_id = Practitioner.objects.get(name=practitioner).fhir_id
         patient_id = Patient.objects.get(name=patient).fhir_id
         hl7message, tests_values, room = hl7tools.generate_hl7_message(practitioner_id, patient_id, tests, is_critical)
+        hl7_context_dict = hl7tools.parse_hl7_message(hl7message)
+
+        messages = generate_push_notification(hl7_context_dict)
+
+        for message, message_val in messages:
+            for test in tests_values:
+                diff = abs(float(test[0])-float(message_val))
+                thresh = 0.00001
+                if diff < thresh:
+                    test.append(message)
+
+
+
         print len(tests_values)
         print tests_values
         for test in tests_values:
+            print "test[0]", test[0]
             print "test[1]", test[1]
+            print "message", test[3]
             order = OrderMessage(ordering_practitioner=Practitioner.objects.get(name=practitioner),
                                  care_team_doctor_1=care_team_1,
                                  care_team_doctor_2=care_team_2,
@@ -64,7 +81,8 @@ def order_test_home(request):
                                  critical=test[2],
                                  taken_by_doctor=False,
                                  time_ordered=timezone.localtime(timezone.now()),
-                                 time_claimed=timezone.localtime(timezone.now()))
+                                 time_claimed=timezone.localtime(timezone.now()),
+                                 push_message=test[3])
             order.save()
 
         context = {
@@ -93,7 +111,7 @@ def generate_push_notification(hl7_context_dictionary):
             value_and_units = result["test_value"] + result["test_units"] + ","
             room = "Room: " + hl7_context_dictionary["room_number"]
             push_notification = " ".join([test_name, value_and_units, room])
-            notifications.append(push_notification)
+            notifications.append((push_notification, result["test_value"]))
     return notifications
 
 
@@ -110,12 +128,61 @@ def post_hl7_message(request):
         print hl7_context_dictionary
         notifs = generate_push_notification(hl7_context_dictionary)
         context = {
-            "notifications": notifs
+            "notifications": [n[0] for n in notifs]
         }
-        #SEND PUSH NOTIFICATIONS HERE
+
+        messages = [OrderMessage.objects.get(push_message=n[0]) for n in notifs]
+
+        push_notifications = []
+        headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGIxM2NjZS1hY2Q3LTRiODQtYjhkYi03OGIyNjAxMWFkMmEifQ.d4xzSU6Rq-ZuqiTyoW7KxlzqGR1HYBFEPOaN9NdUvGo",
+                   "content-type": "application/json"}
+        endpoint = "https://api.ionic.io/push/notifications"
+
+        for message in messages:
+            push_notification = {}
+            push_notification["tokens"] = message.get_tokens_of_care_team()
+            push_notification["profile"] = "labitreports"
+            notification = {}
+            notification["title"] = "LabIT: Critical Result"
+            notification["message"] = message.push_message
+            payload = {}
+            notification["payload"] = payload
+            payload["id"] = message.id
+            push_notification["notification"] = notification
+            push_notifications.append(push_notification)
+
+        for notification in push_notifications:
+            print "NOTIFICATION"
+            print "\n"
+            pprint.pprint(json.dumps(notification))
+            json_result = requests.post(endpoint, data=json.dumps(notification), headers=headers).json()
+            print "RESULT"
+            print "\n"
+            print json_result
+
+
+
+
+
         return render(request, "messagegenerator/pushdetails.html", context)
     else:
         return render(request, "messagegenerator/error.html", {"error": "Error parsing HL7 message."})
+
+
+def get_ordered_tests_(practitioner_fhir_id, taken_by_dr=False):
+    orders_list = []
+    practitioner_fhir_id = practitioner_fhir_id
+    practitioner = Practitioner.objects.get(fhir_id=practitioner_fhir_id)
+    orders = OrderMessage.objects.all()
+    for order in orders:
+        if order.time_remaining() > 1 and order.taken_by_doctor == taken_by_dr and order.is_on_care_team(practitioner):
+            order_dict = order.to_dict()
+            orders_list.append(order_dict)
+    # json_response = json.dumps(orders_list)
+    json_response = orders_list
+    response = JsonResponse(json_response, safe=False)
+    # response["Access-Control-Allow-Origin"] = "*"
+    return response
 
 
 @csrf_exempt

@@ -117,6 +117,7 @@ class OrderMessage(models.Model):
     test = models.ForeignKey(LabTest, on_delete=models.CASCADE)
     taken_by_doctor = models.BooleanField(default=False)
     critical = models.BooleanField(default=False)
+    push_message = models.CharField(max_length=250, default="push notification")
 
     time_ordered = models.DateTimeField(default=timezone.localtime(timezone.now()))
     claimer = models.CharField(max_length=100, default="11111")
@@ -134,6 +135,13 @@ class OrderMessage(models.Model):
         if self.ordering_practitioner == practitioner or self.care_team_doctor_2 == practitioner or self.care_team_doctor_1 == practitioner:
             return True
         return False
+
+    def get_tokens_of_care_team(self):
+        tokens = []
+        tokens.append(self.ordering_practitioner.push_token)
+        tokens.append(self.care_team_doctor_1.push_token)
+        tokens.append(self.care_team_doctor_2.push_token)
+        return tokens
 
     def to_dict(self):
         context = {}

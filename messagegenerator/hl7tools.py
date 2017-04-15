@@ -103,7 +103,7 @@ def generate_hl7_message(practitioner, patient, tests, critical):
                 hl7message.ORU_R01_PATIENT_RESULT.ORU_R01_ORDER_OBSERVATION.ORU_R01_OBSERVATION.OBX.obx_8 = "AA"
             else:
                 hl7message.ORU_R01_PATIENT_RESULT.ORU_R01_ORDER_OBSERVATION.ORU_R01_OBSERVATION.OBX.obx_8 = "N"
-            tests_values.append( (value, test, critical) )
+            tests_values.append( [value, test, critical] )
         else:
             hl7message.add_group("ORU_R01_PATIENT_RESULT")
             hl7message.ORU_R01_PATIENT_RESULT[i].ORU_R01_ORDER_OBSERVATION.OBR.obr_4 = test_object.loinc_id
@@ -118,6 +118,6 @@ def generate_hl7_message(practitioner, patient, tests, critical):
                 hl7message.ORU_R01_PATIENT_RESULT[i].ORU_R01_ORDER_OBSERVATION.ORU_R01_OBSERVATION.OBX.obx_8 = "AA"
             else:
                 hl7message.ORU_R01_PATIENT_RESULT[i].ORU_R01_ORDER_OBSERVATION.ORU_R01_OBSERVATION.OBX.obx_8 = "N"
-            tests_values.append( (value, test, critical) )
+            tests_values.append( [value, test, critical] )
     return get_hl7_string(hl7message), tests_values, room
 
