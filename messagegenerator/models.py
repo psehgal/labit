@@ -158,6 +158,10 @@ class OrderMessage(models.Model):
         context["patient_name"] = self.patient.name
         context["units"] = self.test.testranges_set.all()[0].test_units
         context["location"] = self.room
+        context["doctors"] = []
+        context["doctors"].append(self.ordering_practitioner.name)
+        context["doctors"].append(self.care_team_doctor_1.name)
+        context["doctors"].append(self.care_team_doctor_2.name)
         context["ordering_practitioner"] = self.ordering_practitioner.name
         context["care_team_doctor_1"] = self.care_team_doctor_1.name
         context["care_team_doctor_2"] = self.care_team_doctor_2.name
