@@ -194,7 +194,8 @@ def get_ordered_tests(request, taken_by_dr=False):
         practitioner = Practitioner.objects.get(fhir_id=practitioner_fhir_id)
         orders = OrderMessage.objects.all()
         for order in orders:
-            if order.time_remaining() > 1 and order.taken_by_doctor == taken_by_dr and order.is_on_care_team(practitioner):
+            #order.time_remaining() > 1 and
+            if  order.taken_by_doctor == taken_by_dr and order.is_on_care_team(practitioner):
                 order_dict = order.to_dict()
                 orders_list.append(order_dict)
     # json_response = json.dumps(orders_list)
