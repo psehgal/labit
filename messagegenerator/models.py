@@ -169,7 +169,10 @@ class OrderMessage(models.Model):
         context["ordering_practitioner"] = self.ordering_practitioner.name
         context["care_team_doctor_1"] = self.care_team_doctor_1.name
         context["care_team_doctor_2"] = self.care_team_doctor_2.name
-        context["reference_range"] = self.reference_range
+        reference_range_lower = str(self.patient.get_test_value(self.test, self.critical)[1].test_reference_range_lower)
+        reference_range_upper = str(self.patient.get_test_value(self.test, self.critical)[1].test_reference_range_upper)
+        rr = "({0} - {1})".format(reference_range_lower, reference_range_upper)
+        context["reference_range"] = rr
         return context
 
 
