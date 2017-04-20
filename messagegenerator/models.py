@@ -76,6 +76,7 @@ class Patient(models.Model):
     michigan_common_key_service_identifier = models.CharField(max_length=50)
 
     def get_test_value(self, test, critical):
+        precision = 4
         test_ranges_for_test = TestRanges.objects.filter(lab_test=test)
         p_sex = None
         if self.sex[0] == "m" or self.sex[0] == "M":
@@ -88,15 +89,15 @@ class Patient(models.Model):
                 if range_.has_upper_critical_range:
                     if critical:
                         rand_mult = random.uniform(1.2, 1.9)
-                        return range_.test_high_critical_value * rand_mult, range_
+                        return round(range_.test_high_critical_value * rand_mult, 4), range_
                     else:
-                        return random.uniform(range_.test_reference_range_lower, range_.test_reference_range_upper), range_
+                        return round(random.uniform(range_.test_reference_range_lower, range_.test_reference_range_upper), 4), range_
                 elif range_.has_lower_critical_range:
                     if critical:
                         rand_mult = random.uniform(0.1, 0.8)
-                        return range_.test_low_critical_value * rand_mult, range_
+                        return round(range_.test_low_critical_value * rand_mult, 4), range_
                     else:
-                        return random.uniform(range_.test_reference_range_lower, range_.test_reference_range_upper), range_
+                        return round(random.uniform(range_.test_reference_range_lower, range_.test_reference_range_upper), 4), range_
 
     def get_age_in_days(self):
         b_date = datetime.strptime(self.birthday, "%Y-%m-%d")
