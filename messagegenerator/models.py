@@ -85,6 +85,9 @@ class Patient(models.Model):
             p_sex = "F"
         age_days = self.get_age_in_days()
         for range_ in test_ranges_for_test:
+            reference_range_lower = range_.test_reference_range_lower
+            reference_range_upper = range_.test_reference_range_upper
+            reference_range = (reference_range_lower, reference_range_upper)
             if range_.patient_sex == p_sex and age_days < range_.age_range_upper_days and age_days > range_.age_range_lower_days:
                 if range_.has_upper_critical_range:
                     if critical:
@@ -119,7 +122,7 @@ class OrderMessage(models.Model):
     taken_by_doctor = models.BooleanField(default=False)
     critical = models.BooleanField(default=False)
     push_message = models.CharField(max_length=250, default="push notification")
-
+    reference_range = models.CharField(max_length=250, default="1.0 - 2.0")
     time_ordered = models.DateTimeField(default=timezone.localtime(timezone.now()))
     claimer = models.CharField(max_length=100, default="11111")
     time_claimed = models.DateTimeField(default=None)
@@ -166,6 +169,7 @@ class OrderMessage(models.Model):
         context["ordering_practitioner"] = self.ordering_practitioner.name
         context["care_team_doctor_1"] = self.care_team_doctor_1.name
         context["care_team_doctor_2"] = self.care_team_doctor_2.name
+        context["reference_range"] = self.reference_range
         return context
 
 

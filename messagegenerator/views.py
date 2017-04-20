@@ -56,12 +56,13 @@ def order_test_home(request):
 
         messages = generate_push_notification(hl7_context_dict)
 
-        for message, message_val in messages:
+        for message, message_val, rr in messages:
             for test in tests_values:
                 diff = abs(float(test[0])-float(message_val))
                 thresh = 0.00001
                 if diff < thresh:
                     test.append(message)
+                    test.append(rr)
 
 
 
@@ -82,7 +83,8 @@ def order_test_home(request):
                                  taken_by_doctor=False,
                                  time_ordered=timezone.localtime(timezone.now()),
                                  time_claimed=timezone.localtime(timezone.now()),
-                                 push_message=test[3])
+                                 push_message=test[3],
+                                 reference_range=test[4])
             order.save()
 
         context = {
@@ -111,8 +113,17 @@ def generate_push_notification(hl7_context_dictionary):
             value_and_units = result["test_value"] + result["test_units"] + ","
             room = "Room: " + hl7_context_dictionary["room_number"]
             push_notification = " ".join([test_name, value_and_units, room])
-            notifications.append((push_notification, result["test_value"]))
+            reference_range = result["reference_range"]
+            notifications.append((push_notification, result["test_value"], reference_range))
     return notifications
+
+
+def get_reference_ranges(hl7_context_dict):
+    ranges = []
+    for result in hl7_context_dict["results"]:
+        reference_range = result["reference_range"]
+        ranges.append(reference_range)
+    return ranges
 
 
 @csrf_exempt

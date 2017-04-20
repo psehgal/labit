@@ -48,6 +48,7 @@ def parse_hl7_message(hl7message):
             individual_test["test_value"] = test_value
             individual_test["test_units"] = test_units
             individual_test["is_critical"] = is_critical
+            individual_test["reference_range"] = segment.obx_7.to_er7()
             tests.append(individual_test)
     hl7_parsed_context["results"] = tests
     return hl7_parsed_context
