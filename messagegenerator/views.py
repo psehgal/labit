@@ -112,7 +112,7 @@ def generate_push_notification(hl7_context_dictionary):
             test_name = result["test_name"].replace("^", " ")
             value_and_units = result["test_value"] + result["test_units"] + ","
             room = "Room: " + hl7_context_dictionary["room_number"]
-            push_notification = " ".join([test_name, value_and_units, room])
+            push_notification = " ".join([room, value_and_units, test_name])
             reference_range = result["reference_range"]
             notifications.append((push_notification, result["test_value"], reference_range))
     return notifications
