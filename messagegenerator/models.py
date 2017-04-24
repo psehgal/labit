@@ -134,6 +134,7 @@ class OrderMessage(models.Model):
             seconds = remaining_time.total_seconds()
             minutes = (seconds % 3600) // 60
             return minutes
+        return None
 
     def is_on_care_team(self, practitioner):
         if self.ordering_practitioner == practitioner or self.care_team_doctor_2 == practitioner or self.care_team_doctor_1 == practitioner:

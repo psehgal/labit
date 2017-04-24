@@ -196,6 +196,18 @@ def get_ordered_tests_(practitioner_fhir_id, taken_by_dr=False):
     return response
 
 
+def dashboard(request):
+    valid_orders = []
+    orders = OrderMessage.objects.all()
+    for order in orders:
+        if order.time_remaining() is not None:
+            valid_orders.append( order )
+    valid_orders.sort(key=lambda x: x.time_remaining())
+    print valid_orders
+    print len(valid_orders)
+    return render(request, "messagegenerator/dashboard.html", {"orders": valid_orders})
+
+
 @csrf_exempt
 def get_ordered_tests(request, taken_by_dr=False):
     orders_list = []

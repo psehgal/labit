@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^posthl7message', views.post_hl7_message, name="post_h7_message"),
     url(r'^gettests', views.get_ordered_tests, name="get_ordered_tests"),
     url(r'^gettakentests', views.get_taken_tests, name="get_taken_tests"),
+    url(r'^dashboard', views.dashboard, name="dashboard"),
     url(r'^getdoctorsoncall', views.get_doctors_on_call, name="get_doctors_on_call"),
     url(r'^login', views.login, name="login"),
     url(r'^taketest', views.take_test, name="take_test"),
