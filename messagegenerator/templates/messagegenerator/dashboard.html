@@ -19,10 +19,10 @@
       <td>{{ order.test.test_name }}</td>
       <td>{{ order.value }}</td>
 
-      {% if order.less_than_40 %}
-      <td style="color: orange">{{ order.time_remaining }}</td>
-      {% elif order.less_than_20 %}
+      {% if order.less_than_20 %}
       <td style="color: firebrick">{{ order.time_remaining }}</td>
+      {% elif order.less_than_40 %}
+      <td style="color: orange">{{ order.time_remaining }}</td>
       {% else %}
       <td style="color: green">{{ order.time_remaining }}</td>
       {% endif %}
