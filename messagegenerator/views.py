@@ -71,7 +71,11 @@ def order_test_home(request):
         for test in tests_values:
             print "test[0]", test[0]
             print "test[1]", test[1]
-            print "message", test[3]
+            message = ""
+            rr = ""
+            if len(test) == 5:
+                message = test[3]
+                rr = test[4]
             order = OrderMessage(ordering_practitioner=Practitioner.objects.get(name=practitioner),
                                  care_team_doctor_1=care_team_1,
                                  care_team_doctor_2=care_team_2,
@@ -83,8 +87,8 @@ def order_test_home(request):
                                  taken_by_doctor=False,
                                  time_ordered=timezone.localtime(timezone.now()),
                                  time_claimed=timezone.localtime(timezone.now()),
-                                 push_message=test[3],
-                                 reference_range=test[4])
+                                 push_message=message,
+                                 reference_range=rr)
             order.save()
 
         context = {
