@@ -130,6 +130,14 @@ class OrderMessage(models.Model):
     claimer = models.CharField(max_length=100, default="11111")
     time_claimed = models.DateTimeField(default=None)
 
+    def less_than_20(self):
+        tr = self.time_remaining()
+        return tr < 20
+
+    def less_than_40(self):
+        tr = self.time_remaining()
+        return tr < 40
+
     def time_remaining(self):
         expiration_time = self.time_ordered + timedelta(hours=1)
         remaining_time = expiration_time - timezone.localtime(timezone.now())
