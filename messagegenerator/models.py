@@ -63,6 +63,9 @@ class Practitioner(models.Model):
     location = models.IntegerField(default=g())
     push_token = models.CharField(max_length=500, default="123")
 
+    def is_on_call(self):
+        return self.on_call == True
+
     def __str__(self):
         return self.name + ", " + self.fhir_id
 

@@ -22,9 +22,25 @@
       <td>{{ order.taken_by_doctor }}</td>
       <td>{{ order.room }}</td>
       <td>{{ order.patient.name }}</td>
-      <td>{{ order.ordering_practitioner.name }}</td>
-      <td>{{ order.care_team_doctor_1.name }}</td>
-      <td>{{ order.care_team_doctor_2.name }}</td>
+
+      {% if order.ordering_practitioner.is_on_call %}
+      <td style="color: green">{{ order.ordering_practitioner.name }}</td>
+      {% else %}
+      <td style="color: firebrick">{{ order.ordering_practitioner.name }}</td>
+      {% endif %}
+
+      {% if order.care_team_doctor_1.is_on_call %}
+      <td style="color: green">{{ order.care_team_doctor_1.name }}</td>
+      {% else %}
+      <td style="color: firebrick">{{ order.care_team_doctor_1.name }}</td>
+      {% endif %}
+
+      {% if order.care_team_doctor_2.is_on_call %}
+      <td style="color: green">{{ order.care_team_doctor_2.name }}</td>
+      {% else %}
+      <td style="color: firebrick">{{ order.care_team_doctor_2.name }}</td>
+      {% endif %}
+
     </tr>
     {% endfor %}
 
