@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b9c0fa41-a782-4d5e-adcd-afe3e7f9b1f5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/messagegenerator/hl7tools.py" afterPath="$PROJECT_DIR$/messagegenerator/hl7tools.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/messagegenerator/templates/messagegenerator/dashboard.html" afterPath="$PROJECT_DIR$/messagegenerator/templates/messagegenerator/dashboard.html" />
     </list>
     <ignored path="labresults.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,7 +71,7 @@
         <entry file="file://$PROJECT_DIR$/messagegenerator/hl7tools.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="443">
-              <caret line="85" column="14" selection-start-line="85" selection-start-column="14" selection-end-line="85" selection-end-column="14" />
+              <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -101,19 +102,9 @@
       <file leaf-file-name="dashboard.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/messagegenerator/templates/messagegenerator/dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="22" column="66" selection-start-line="22" selection-start-column="66" selection-end-line="22" selection-end-column="66" />
-              <folding>
-                <element signature="e#623#647#0#HTML" expanded="true" />
-                <element signature="e#726#747#0#HTML" expanded="true" />
-                <element signature="e#807#827#0#HTML" expanded="true" />
-                <element signature="e#1061#1081#0#HTML" expanded="true" />
-                <element signature="e#1153#1177#0#HTML" expanded="true" />
-                <element signature="e#1302#1322#0#HTML" expanded="true" />
-                <element signature="e#1391#1415#0#HTML" expanded="true" />
-                <element signature="e#1537#1557#0#HTML" expanded="true" />
-                <element signature="e#1626#1650#0#HTML" expanded="true" />
-              </folding>
+            <state relative-caret-position="240">
+              <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1151,24 +1142,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/messagegenerator/templates/messagegenerator/dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="22" column="66" selection-start-line="22" selection-start-column="66" selection-end-line="22" selection-end-column="66" />
-          <folding>
-            <element signature="e#623#647#0#HTML" expanded="true" />
-            <element signature="e#726#747#0#HTML" expanded="true" />
-            <element signature="e#807#827#0#HTML" expanded="true" />
-            <element signature="e#1061#1081#0#HTML" expanded="true" />
-            <element signature="e#1153#1177#0#HTML" expanded="true" />
-            <element signature="e#1302#1322#0#HTML" expanded="true" />
-            <element signature="e#1391#1415#0#HTML" expanded="true" />
-            <element signature="e#1537#1557#0#HTML" expanded="true" />
-            <element signature="e#1626#1650#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/messagegenerator/templates/messagegenerator/orderdetails.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -1187,10 +1160,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/messagegenerator/templates/messagegenerator/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/messagegenerator/hl7tools.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="443">
-          <caret line="85" column="14" selection-start-line="85" selection-start-column="14" selection-end-line="85" selection-end-column="14" />
+          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
           <folding />
         </state>
       </provider>
