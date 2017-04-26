@@ -114,9 +114,9 @@ def generate_push_notification(hl7_context_dictionary):
     notifications = []
     for result in hl7_context_dictionary["results"]:
         if result["is_critical"] == "AA":
-            test_name = result["test_name"].replace("^", " ")
-            value_and_units = result["test_value"] + result["test_units"] + ","
-            room = "Location: " + hl7_context_dictionary["room_number"]
+            test_name = result["test_name"].replace("^", " ") + ","
+            value_and_units = result["test_value"] + result["test_units"]
+            room = "Location: " + hl7_context_dictionary["room_number"] + ","
             push_notification = " ".join([room, test_name, value_and_units])
             reference_range = result["reference_range"]
             notifications.append((push_notification, result["test_value"], reference_range))
