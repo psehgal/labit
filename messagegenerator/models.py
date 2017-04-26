@@ -95,13 +95,13 @@ class Patient(models.Model):
                 if range_.has_upper_critical_range:
                     if critical:
                         rand_mult = random.uniform(1.2, 1.9)
-                        return round(range_.test_high_critical_value * rand_mult, 4), range_
+                        return round(range_.test_high_critical_value * rand_mult, 2), range_
                     else:
                         return round(random.uniform(range_.test_reference_range_lower, range_.test_reference_range_upper), 4), range_
                 elif range_.has_lower_critical_range:
                     if critical:
                         rand_mult = random.uniform(0.1, 0.8)
-                        return round(range_.test_low_critical_value * rand_mult, 4), range_
+                        return round(range_.test_low_critical_value * rand_mult, 2), range_
                     else:
                         return round(random.uniform(range_.test_reference_range_lower, range_.test_reference_range_upper), 4), range_
 
@@ -120,7 +120,7 @@ class OrderMessage(models.Model):
     care_team_doctor_2 = models.ForeignKey(Practitioner, related_name="%(class)s_related_created_here", on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     value = models.FloatField()
-    room = models.IntegerField()
+    room = models.CharField(max_length=50, default="")
     test = models.ForeignKey(LabTest, on_delete=models.CASCADE)
     taken_by_doctor = models.BooleanField(default=False)
     critical = models.BooleanField(default=False)
@@ -169,7 +169,8 @@ class OrderMessage(models.Model):
         context["test_name"] = self.test.test_name
         context["value"] = self.value
         context["patient_gender"] = self.patient.sex
-        context["patient_age"] = self.patient.get_age_in_days() / 365
+
+        context["patient_age"] = self.patient.birthday
         context["is_critical"] = self.critical
         context["patient_name"] = self.patient.name
         context["units"] = self.test.testranges_set.all()[0].test_units

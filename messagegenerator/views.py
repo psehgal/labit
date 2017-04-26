@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 import requests
 import pprint
+import hashlib
 
 # Create your views here.
 
@@ -115,8 +116,8 @@ def generate_push_notification(hl7_context_dictionary):
         if result["is_critical"] == "AA":
             test_name = result["test_name"].replace("^", " ")
             value_and_units = result["test_value"] + result["test_units"] + ","
-            room = "Room: " + hl7_context_dictionary["room_number"]
-            push_notification = " ".join([room, value_and_units, test_name])
+            room = "Location: " + hl7_context_dictionary["room_number"]
+            push_notification = " ".join([room, test_name, value_and_units])
             reference_range = result["reference_range"]
             notifications.append((push_notification, result["test_value"], reference_range))
     return notifications
@@ -162,6 +163,7 @@ def post_hl7_message(request):
             notification["message"] = message.push_message
             payload = {}
             notification["payload"] = payload
+            notification["android"] = {"data": {"notId": str(message.id) }}
             payload["id"] = message.id
             push_notification["notification"] = notification
             push_notifications.append(push_notification)

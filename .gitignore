@@ -5,3 +5,4 @@ get_patients_data.py
 get_practitioners_data.py
 popdb.py
 popdb_patients_practitioners.py
+pop_tests_and_ranges.py
