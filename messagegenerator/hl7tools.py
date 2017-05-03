@@ -83,7 +83,7 @@ def generate_hl7_message(practitioner, patient, tests, critical):
     #PV1 - Patient Visit Information Segement (https://corepointhealth.com/resource-center/hl7-resources/hl7-pv1-patient-visit-information-segment)
     #PV1_3 is patient location - ask Cotterman if this has room number and how to parse it.
     locations = ["Room " + str(x) for x in range(1, 51)] + ["Waiting Room"] * 50 + ["Zone 1"] * 20 + ["Zone 2"] * 20 + ["Zone 3"] * 20
-
+    locations = ["Room 29"]
     room = random.choice(locations)
     pv1.pv1_3 = room
     pv1.pv1_2 = "E"
